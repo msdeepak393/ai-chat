@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background: none;
+    }
+
+    .container {
+      background-color: transparent;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      max-width: 350px;
+      width: 100%;
+      text-align: center;
+      position: relative;
+    }
+
+    .header {
+      -webkit-app-region: drag;
+      background-color: #9c7830;
+      padding: 10px;
+      color: #fff;
+      border-radius: 8px 8px 0 0;
+      font-weight: bold;
+    }
+
+    #questionInput {
+      width: 100%;
+      padding: 10px;
+      border: 2px solid #ccc;
+      border-radius: 6px;
+      margin-top: 10px;
+      outline: none;
+    }
+
+    #questionInput:focus {
+      border-color: #9f8231;
+    }
+
+    #response {
+      display: none;
+      margin-top: 15px;
+      padding: 10px;
+      background-color: #f4f4f4;
+      border-radius: 6px;
+      color: #333;
+      font-size: 1rem;
+    }
+
+    .processing {
+      font-style: italic;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">AI Assistant</div>
+    <input type="text" id="questionInput" placeholder="Ask a question...">
+    <p id="response"></p>
+  </div>
+
+  <script>
+    const input = document.getElementById('questionInput');
+    const response = document.getElementById('response');
+
+    // Submit question on "Enter" key
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        submitQuestion();
+      }
+    });
+
+    // Show "processing" message and submit question
+    function submitQuestion() {
+      const question = input.value.trim();
+      if (question) {
+        response.innerText = "Processing...";
+        response.classList.add("processing");
+        response.style.display = "block";
+        
+        window.electronAPI.askQuestion(question);
+      }
+    }
+
+    // Display answer and remove "processing" class
+    window.electronAPI.onResponse((event, answer) => {
+      response.innerText = answer;
+      response.classList.remove("processing");
+    });
+
+    // Hide response if input is cleared
+    input.addEventListener('input', () => {
+      if (!input.value.trim()) {
+        response.style.display = "none";
+      }
+    });
+  </script>
+</body>
+</html>
