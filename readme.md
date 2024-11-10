@@ -28,3 +28,5 @@ Currently we are using the DuckDuckGo API for responses, but you can integrate a
 # Why Electron?
 We chose Electron for this project because it allowed us to create a cross-platform desktop application with web technologies. Additionally, Electron provides a simple and easy-to-use API for interacting with the file system and other system resources. This made it easy to create a simple chat application with a GUI.
 
+![screenshot](https://github.com/msdeepak393/ai-chat/blob/main/images/icon/ai-assistant.png)
+
